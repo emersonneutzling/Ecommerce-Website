@@ -37,6 +37,17 @@ function ready() {
         button.addEventListener('click', addCartClicked);
 
     }
+
+    document.getElementsByClassName('btn-buy')[0].addEventListener('click', buyButtonclicked);
+}
+
+function buyButtonclicked () {
+    alert('Seu pedido está feito');
+    var cartContent = document.getElementsByClassName('cart-content')[0];
+    while (cartContent.hasChildNodes()) {
+        cartContent.removeChild(cartContent.firstChild);
+    }
+    updatetotal();
 }
 
 function removeCartItem(event) {
@@ -107,10 +118,11 @@ function updatetotal() {
         var cartBox = cartBoxes[i];
         var priceElement = cartBox.getElementsByClassName('cart-price')[0];
         var quantityElement = cartBox.getElementsByClassName('cart-quantity')[0];
-        var price = parseFloat(priceElement.innerText.replace("$", ""));
+        var price = parseFloat(priceElement.innerText.replace("R$", ""));
         var quantity = quantityElement.value;
         total = total + price * quantity;
-
-        document.getElementsByClassName('total-price')[0].innerText = "$" + total;
     }
+
+        document.getElementsByClassName('total-price')[0].innerText = "R$" + total;
+   
 }
