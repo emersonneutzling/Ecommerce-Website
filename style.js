@@ -30,6 +30,13 @@ function ready() {
         var input = quantityInputs[i];
         input.addEventListener("change", quantityChanged);
     }
+
+    var addCart = document.getElementsByClassName('add-cart');
+    for (var i = 0; i < addCart.length; i++){
+        var button = addCart[i];
+        button.addEventListener('click', addCartClicked);
+
+    }
 }
 
 function removeCartItem(event) {
@@ -46,6 +53,50 @@ function quantityChanged(event) {
     updatetotal();
 
 }
+
+function addCartClicked(event) {
+    var button = event.target;
+    var shopProducts = button.parentElement;
+    var title = shopProducts.getElementsByClassName('product-title')[0].innerText;
+    var price = shopProducts.getElementsByClassName('price')[0].innerText;
+    var productImg = shopProducts.getElementsByClassName('product-img')[0].src;
+    addProductToCart(title, price, productImg);
+    updatetotal();
+
+}
+
+function addProductToCart(title, price, productImg) {
+    var cartShopBox = document.createElement('div');
+    cartShopBox.classList.add("cart-box");
+    var cartItems = document.getElementsByClassName('cart-content')[0];
+    var cartItemsNames = cartItems.getElementsByClassName('cart-product-title');
+    for (var i = 0; i < cartItemsNames.length; i++) {
+        if (cartItemsNames[i].innerText == title){
+        alert("Você já adicionou este item ao carrinho");
+        return;
+        }
+       
+    }
+    
+    
+
+
+
+var cartBoxContent = `
+                       <img src="${productImg}" alt="" class="cart-img">
+                        <div class="detail-box">
+                            <div class="cart-product-title">${title}</div>
+                            <div class="cart-price">${price}</div>
+                            <input type="number" value="1" class="cart-quantity">
+                        </div>
+                        <i class='bx bxs-trash-alt cart-remove'></i> `;
+
+cartShopBox.innerHTML = cartBoxContent;  
+cartItems.append(cartShopBox);  
+cartShopBox.getElementsByClassName('cart-remove')[0].addEventListener('click', removeCartItem);
+cartShopBox.getElementsByClassName('cart-quantity')[0].addEventListener('change',  quantityChanged);   
+}             
+
 
 
 function updatetotal() {
